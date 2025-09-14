@@ -1,0 +1,96 @@
+/* Custom styles */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* Card styles */
+.parking-slot-card {
+    transition: transform 0.2s;
+    margin-bottom: 20px;
+}
+
+.parking-slot-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.status-available {
+    color: #28a745;
+}
+
+.status-occupied {
+    color: #dc3545;
+}
+
+.status-reserved {
+    color: #ffc107;
+}
+
+.status-maintenance {
+    color: #6c757d;
+}
+
+/* Dashboard stats */
+.stats-card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stats-card .card-body {
+    padding: 1.5rem;
+}
+
+.stats-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Form styles */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Table styles */
+.table-responsive {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+/* Button styles */
+.btn-action {
+    border-radius: 20px;
+    padding: 8px 20px;
+}
+
+/* Search bar */
+.search-bar {
+    max-width: 300px;
+    margin: 1rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    .form-container {
+        padding: 15px;
+    }
+} 

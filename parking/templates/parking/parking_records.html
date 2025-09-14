@@ -1,0 +1,90 @@
+{% extends 'parking/base.html' %}
+
+{% block title %}Parking Records - Parking Management System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Parking Records</h2>
+            <div class="d-flex">
+                <input type="text" class="form-control search-bar me-2" id="recordSearch" placeholder="Search records...">
+                <a href="{% url 'add_parking_record' %}" class="btn btn-primary btn-action">
+                    <i class="fas fa-plus"></i> New Record
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Vehicle Number</th>
+                        <th>Slot</th>
+                        <th>Driver</th>
+                        <th>Phone</th>
+                        <th>Check-in Time</th>
+                        <th>Check-out Time</th>
+                        <th>Fee</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr class="record-item">
+                        <td>{{ record.vehicle_number }}</td>
+                        <td>{{ record.parking_slot.slot_number }}</td>
+                        <td>{{ record.driver_name }}</td>
+                        <td>{{ record.driver_phone }}</td>
+                        <td>{{ record.check_in_time|date:"M d, Y H:i" }}</td>
+                        <td>
+                            {% if record.check_out_time %}
+                                {{ record.check_out_time|date:"M d, Y H:i" }}
+                            {% else %}
+                                <span class="badge bg-warning">Active</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if record.fee_charged %}
+                                ₹{{ record.fee_charged }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not record.check_out_time %}
+                            <a href="{% url 'checkout_vehicle' record.id %}" class="btn btn-sm btn-success">
+                                <i class="fas fa-sign-out-alt"></i> Check-out
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">No parking records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('recordSearch').addEventListener('keyup', function() {
+    const searchText = this.value.toLowerCase();
+    const records = document.getElementsByClassName('record-item');
+    
+    Array.from(records).forEach(record => {
+        const text = record.textContent.toLowerCase();
+        record.style.display = text.includes(searchText) ? '' : 'none';
+    });
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,56 @@
+{% extends 'parking/base.html' %}
+
+{% block title %}Checkout Vehicle - Parking Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Checkout Vehicle</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <h5>Vehicle Details</h5>
+                    <p class="mb-1"><strong>Vehicle Number:</strong> {{ record.vehicle_number }}</p>
+                    <p class="mb-1"><strong>Driver Name:</strong> {{ record.driver_name }}</p>
+                    <p class="mb-1"><strong>Parking Slot:</strong> {{ record.parking_slot.slot_number }}</p>
+                    <p class="mb-1"><strong>Check-in Time:</strong> {{ record.check_in_time|date:"M d, Y H:i" }}</p>
+                    <p class="mb-0"><strong>Duration:</strong> <span id="duration"></span></p>
+                </div>
+
+                <form method="post" class="form-container">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'parking_records' %}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check"></i> Confirm Checkout
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function updateDuration() {
+    const checkInTime = new Date("{{ record.check_in_time|date:'c' }}");
+    const now = new Date();
+    const diff = now - checkInTime;
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    document.getElementById('duration').textContent = `${hours} hours, ${minutes} minutes`;
+}
+
+// Update duration every minute
+updateDuration();
+setInterval(updateDuration, 60000);
+</script>
+{% endblock %} 
